@@ -13,12 +13,12 @@
 <body>
 	<section id="contact">
 			<div class="section-content">
-				<h1 class="section-header">Get in <span class="content-header wow fadeIn " data-wow-delay="0.2s" data-wow-duration="2s"> Touch with us</span></h1>
+				<h1 class="section-header">Program <span class="content-header wow fadeIn " data-wow-delay="0.2s" data-wow-duration="2s">Enkripsi dan Dekripsi Chiper</span></h1>
 				
 			</div>
 			<div class="contact-section">
 				<div class="container">
-					<form method="post" action="encrypt.php">
+					<form method="post" action="logic.php">
 						<div class="col-md-12">
 							<div class="setengah container">
 								<div class="form-group" align="left">
@@ -40,7 +40,7 @@
 									<br>
 								</div>
 								
-								<div class="form-group" align="left">
+								<div class="form-group" align="left" >
 									<input type="text" class="form-control" name="inputt" id="" placeholder="Masukkan Input" >
 								</div>
 								<div class="form-group" align="center">
