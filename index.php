@@ -42,6 +42,7 @@
 								
 								<div class="form-group" align="left" >
 									<input type="text" class="form-control" name="inputt" id="" placeholder="Masukkan Input" >
+									<input type="text" class="form-control" name="inputttt" id="" placeholder="Masukkan Key" >
 								</div>
 								<div class="form-group" align="center">
 									<button type="submit" class="btn btn-default submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>  Process</button>

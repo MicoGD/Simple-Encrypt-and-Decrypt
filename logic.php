@@ -1,5 +1,12 @@
 <?php
 
+////////////////////////////////////////////////////Get Value//////////////////////////////////////////////////////////////////
+
+	$pil=$_POST["pilihan"];
+	$text=$_POST["inputt"];
+	$med=$_POST["pilihan2"];
+	$kunci=$_POST["inputttt"];
+
 ////////////////////////////////////////////////Caesar Chiper//////////////////////////////////////////////////////////////////
 
 function Ciphercaesar($ch,$key1)
@@ -27,203 +34,61 @@ function Deciphercaesar($input,$key1)
 	return Enciphercaesar($input, 26 - $key1);
 }
 
-////////////////////////////////////////////////playfair chiper////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////poly chiper////////////////////////////////////////////////////////////////
 
-/*function Mod($a, $b)
+									
+function Modpoly($a, $b)
 {
 	return ($a % $b + $b) % $b;
 }
 
-function Create2DArray($rowCount, $colCount) {
-	$arr = new $char[rowCount];
-
-	for ($i = 0; $i < $rowCount; ++$i)
-		$arr[$i] = new $char[colCount];
-
-	return $arr;
-}
-
-function ToUpper($str) {
-	$output = $str;
-	$strLen = str.size();
-
-	for ($i = 0; $i < strLen; ++$i)
-		$output[$i] = strtoupper($output[$i]);
-
-	return $output;
-}
-
-function RemoveChar($str, $ch) {
-	$output = $str;
-
-	for ($i = 0; $i < $output.size(); ++$i)
-		if ($output[$i] == $ch)
-			$output = $output.erase($i, 1);
-
-	return $output;
-}
-
-function vector(int) FindAllOccurrences($str, $value)
+function Cipherpoly($input, $key, $encipher)
 {
-	vector(int) $indexes;
+	$keyLen = strlen($key);
 
-	$index = 0;
-	while (($index = $str.find($value, $index)) != -1)
-		$indexes.push_back($index++);
+	for ($i = 0; $i < $keyLen; ++$i)
+		if (!ctype_alpha($key[$i]))
+			return ""; // Error
 
-	return $indexes;
-}
+	$output = "";
+	$nonAlphaCharCount = 0;
+	$inputLen = strlen($input);
 
-function RemoveAllDuplicates($str, vector<int> $indexes)
-{
-	$retVal = $str;
-
-	for ($i = $indexes.size() - 1; $i >= 1; $i--)
-		$retVal = $retVal.erase($indexes[$i], 1);
-
-	return $retVal;
-}
-
-function GenerateKeySquare($key)
-{
-	&&$keySquare = Create2DArray(5, 5);
-	$defaultKeySquare = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
-	$tempKey = $key.empty() ? "CIPHER" : ToUpper(key);
-
-	tempKey = RemoveChar(tempKey, 'J');
-	tempKey += defaultKeySquare;
-
-	for (int i = 0; i < 25; ++i)
+	for ($i = 0; $i < $inputLen; ++$i)
 	{
-		vector<int> indexes = FindAllOccurrences(tempKey, defaultKeySquare[i]);
-		tempKey = RemoveAllDuplicates(tempKey, indexes);
-	}
-
-	tempKey = tempKey.substr(0, 25);
-
-	for (int i = 0; i < 25; ++i)
-		keySquare[(i / 5)][(i % 5)] = tempKey[i];
-
-	return keySquare;
-}
-
-function GetPosition(char** keySquare, char ch, int* row, int* col)
-{
-	if (ch == 'J')
-		GetPosition(keySquare, 'I', row, col);
-
-	for (int i = 0; i < 5; ++i)
-		for (int j = 0; j < 5; ++j)
-			if (keySquare[i][j] == ch)
-			{
-				*row = i;
-				*col = j;
-				return;
-			}
-}
-
-function SameRow(char** keySquare, int row, int col1, int col2, int encipher)
-{
-	return new char[2] { keySquare[row][Mod((col1 + encipher), 5)], keySquare[row][Mod((col2 + encipher), 5)] };
-}
-
-function SameColumn(char** keySquare, int col, int row1, int row2, int encipher)
-{
-	return new char[2] { keySquare[Mod((row1 + encipher), 5)][col], keySquare[Mod((row2 + encipher), 5)][col] };
-}
-
-function SameRowColumn(char** keySquare, int row, int col, int encipher)
-{
-	return new char[2] { keySquare[Mod((row + encipher), 5)][Mod((col + encipher), 5)], keySquare[Mod((row + encipher), 5)][Mod((col + encipher), 5)] };
-}
-
-function DifferentRowColumn(char** keySquare, int row1, int col1, int row2, int col2)
-{
-	return new char[2] { keySquare[row1][col2], keySquare[row2][col1] };
-}
-
-function RemoveOtherChars(string input)
-{
-	string output = input;
-	int strLen = input.size();
-
-	for (int i = 0; i < strLen; ++i)
-		if (!isalpha(output[i]))
-			output = output.erase(i, 1);
-
-	return output;
-}
-
-function AdjustOutput(string input, string output)
-{
-	string retVal = output;
-	int strLen = input.size();
-
-	for (int i = 0; i < strLen; ++i)
-	{
-		if (!isalpha(input[i]))
-			retVal = retVal.insert(i, 1, input[i]);
-
-		if (islower(input[i]))
-			retVal[i] = strtolower(retVal[i]);
-	}
-
-	return $retVal;
-}
-
-function Cipher($input, $key, bool encipher)
-{
-	$retVal = "";
-	&&$keySquare = GenerateKeySquare($key);
-	$tempInput = RemoveOtherChars($input);
-	$e = $encipher ? 1 : -1;
-	$tempInputLen = $tempInput.size();
-
-	if (($tempInputLen % 2) != 0)
-		$tempInput += "X";
-
-	for ($i = 0; $i < $tempInputLen; $i += 2)
-	{
-		$row1 = 0;
-		$col1 = 0;
-		$row2 = 0;
-		$col2 = 0;
-
-		GetPosition($keySquare, strtoupper($tempInput[$i]), &row1, &col1);
-		GetPosition($keySquare, strtoupper($tempInput[$i + 1]), &row2, &col2);
-
-		if ($row1 == $row2 && $col1 == $col2)
+		if (ctype_alpha($input[$i]))
 		{
-			$retVal += string(SameRowColumn($keySquare, $row1, $col1, $e), 2);
-		}
-		else if ($row1 == $row2)
-		{
-			$retVal += string(SameRow($keySquare, $row1, $col1, $col2, $e), 2);
-		}
-		else if ($col1 == $col2)
-		{
-			$retVal += string(SameColumn($keySquare, $col1, $row1, $row2, $e), 2);
+			$cIsUpper = ctype_upper($input[$i]);
+			$offset = ord($cIsUpper ? 'A' : 'a');
+			$keyIndex = ($i - $nonAlphaCharCount) % $keyLen;
+			$k = ord($cIsUpper ? strtoupper($key[$keyIndex]) : strtolower($key[$keyIndex])) - $offset;
+			$k = $encipher ? $k : -$k;
+			$ch = chr((Modpoly(((ord($input[$i]) + $k) - $offset), 26)) + $offset);
+			$output .= $ch;
 		}
 		else
 		{
-			$retVal += string(DifferentRowColumn($keySquare, $row1, $col1, $row2, $col2), 2);
+			$output .= $input[$i];
+			++$nonAlphaCharCount;
 		}
 	}
 
-	$retVal = AdjustOutput($input, $retVal);
-
-	return $retVal;
+	return $output;
 }
 
-function Encipher($input, $key)
+function Encipherpoly($input, $key)
 {
-	return Cipher($input, $key, true);
+	return Cipherpoly($input, $key, true);
 }
 
-function Decipher($input, $key)
+function Decipherpoly($input, $key)
 {
-	return Cipher($input, $key, false);
-}*/
+	return Cipherpoly($input, $key, false);
+}
+
+////////////////////////////////////////////////playfair chiper////////////////////////////////////////////////////////////////
+
+
 
 
 ////////////////////////////////////////////////transpositon Chiper///////////////////////////////////////////////////////////
@@ -377,24 +242,22 @@ function Deciphermono($input, $cipherAlphabet, &$output)
 	return Ciphermono($input, $cipherAlphabet, $plainAlphabet, $output);
 }
 		
-////////////////////////////////////////////////////Get Value//////////////////////////////////////////////////////////////////
 
-	$pil=$_POST["pilihan"];
-	$text=$_POST["inputt"];
-	$med=$_POST["pilihan2"];
+
+///////////////////////////////////////////////////////logic///////////////////////////////////////////////////////////////////
 
 	if($med=='enk')
 	{
 		if($pil=="Caesar")
 		{
-			$enc=Enciphercaesar($text,5);
+			$enc=Enciphercaesar($text,$kunci);
 			echo $enc;
 		}
 		elseif($pil=="Mono")
 		{
-			$key="cyaezndfvpghjmbxoqsukwirtl";
+			//$key="cyaezndfvpghjmbxoqsukwirtl";
 			$chipertext;
-			Enciphermono($text, $key, $chipertext);
+			Enciphermono($text, $kunci, $chipertext);
 			echo $chipertext;
 
 			//echo $enc;
@@ -407,12 +270,13 @@ function Deciphermono($input, $cipherAlphabet, &$output)
 		}
 		elseif($pil=="Poly")
 		{
-			
+			$enc = Encipherpoly($text, $kunci);
+			echo $enc;
 		}
 		elseif($pil=="Transpositioni")
 		{
-			$key="karimun";
-			$enc = Enciphertrans($text, $key, '-');
+			//$key="karimun";
+			$enc = Enciphertrans($text, $kunci, '-');
 			echo $enc;
 		}
 	}
@@ -421,14 +285,14 @@ function Deciphermono($input, $cipherAlphabet, &$output)
 	{
 		if($pil=="Caesar")
 		{
-			$dec=Deciphercaesar($text,5);
+			$dec=Deciphercaesar($text,$kunci);
 			echo $dec;
 		}
 		elseif($pil=="Mono")
 		{
-			$key="cyaezndfvpghjmbxoqsukwirtl";
+			//$key="cyaezndfvpghjmbxoqsukwirtl";
 			$plaintext;
-			Deciphermono($text, $key, $plaintext);
+			Deciphermono($text, $kunci, $plaintext);
 			echo $plaintext;
 		}
 		elseif($pil=="Playfair")
@@ -437,12 +301,13 @@ function Deciphermono($input, $cipherAlphabet, &$output)
 		}
 		elseif($pil=="Poly")
 		{
-			
+			$dec = Decipherpoly($text, $kunci);
+			echo $dec;
 		}
 		elseif($pil=="Transpositioni")
 		{
-			$key="karimun";
-			$dec = Deciphertrans($text, $key);
+			//$key="karimun";
+			$dec = Deciphertrans($text, $kunci);
 			echo $dec;
 		}
 	}
