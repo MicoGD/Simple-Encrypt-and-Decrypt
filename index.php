@@ -26,6 +26,8 @@
 									<select class="warna" name="pilihan2">
 										<option value="enk">Enkripsi</option>
 										<option value="dek">Dekripsi</option>
+										<option value="enk_file">Enkripsi File</option>
+										<option value="dek_file">Dekripsi File</option>
 									</select>
 								</div>
 					  			<div class="form-group" align="left">

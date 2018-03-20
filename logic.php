@@ -224,8 +224,8 @@ function Ciphermono($input, $oldAlphabet, $newAlphabet, &$output)
 		else
 			$output .= $input[$i];
 	}
-
-	return true;
+	return $output;
+	//return true;
 }
 
 function Enciphermono($input, $cipherAlphabet, &$output)
@@ -246,69 +246,148 @@ function Deciphermono($input, $cipherAlphabet, &$output)
 
 ///////////////////////////////////////////////////////logic///////////////////////////////////////////////////////////////////
 
-	if($med=='enk')
+if($med=='enk')
+{
+	if($pil=="Caesar")
 	{
-		if($pil=="Caesar")
-		{
-			$enc=Enciphercaesar($text,$kunci);
-			echo $enc;
-		}
-		elseif($pil=="Mono")
-		{
-			//$key="cyaezndfvpghjmbxoqsukwirtl";
-			$chipertext;
-			Enciphermono($text, $kunci, $chipertext);
-			echo $chipertext;
-
-			//echo $enc;
-		}
-		elseif($pil=="Playfair")
-		{
-			/*$key=masuk;
-			$enc=Encipher($text,$key);
-			echo $enc;*/
-		}
-		elseif($pil=="Poly")
-		{
-			$enc = Encipherpoly($text, $kunci);
-			echo $enc;
-		}
-		elseif($pil=="Transpositioni")
-		{
-			//$key="karimun";
-			$enc = Enciphertrans($text, $kunci, '-');
-			echo $enc;
-		}
+		$enc=Enciphercaesar($text,$kunci);
+		echo $enc;
 	}
-
-	else
+	elseif($pil=="Mono")
 	{
-		if($pil=="Caesar")
-		{
-			$dec=Deciphercaesar($text,$kunci);
-			echo $dec;
-		}
-		elseif($pil=="Mono")
-		{
-			//$key="cyaezndfvpghjmbxoqsukwirtl";
-			$plaintext;
-			Deciphermono($text, $kunci, $plaintext);
-			echo $plaintext;
-		}
-		elseif($pil=="Playfair")
-		{
-			
-		}
-		elseif($pil=="Poly")
-		{
-			$dec = Decipherpoly($text, $kunci);
-			echo $dec;
-		}
-		elseif($pil=="Transpositioni")
-		{
-			//$key="karimun";
-			$dec = Deciphertrans($text, $kunci);
-			echo $dec;
-		}
+		//$key="cyaezndfvpghjmbxoqsukwirtl";
+		$chipertext;
+		Enciphermono($text, $kunci, $chipertext);
+		echo $chipertext;
+
+		//echo $enc;
 	}
+	elseif($pil=="Playfair")
+	{
+		/*$key=masuk;
+		$enc=Encipher($text,$key);
+		echo $enc;*/
+	}
+	elseif($pil=="Poly")
+	{
+		$enc = Encipherpoly($text, $kunci);
+		echo $enc;
+	}
+	elseif($pil=="Transpositioni")
+	{
+		//$key="karimun";
+		$enc = Enciphertrans($text, $kunci, '-');
+		echo $enc;
+	}
+}
+
+elseif($med=='dek')
+{
+	if($pil=="Caesar")
+	{
+		$dec=Deciphercaesar($text,$kunci);
+		echo $dec;
+	}
+	elseif($pil=="Mono")
+	{
+		//$key="cyaezndfvpghjmbxoqsukwirtl";
+		$plaintext;
+		Deciphermono($text, $kunci, $plaintext);
+		echo $plaintext;
+	}
+	elseif($pil=="Playfair")
+	{
+		
+	}
+	elseif($pil=="Poly")
+	{
+		$dec = Decipherpoly($text, $kunci);
+		echo $dec;
+	}
+	elseif($pil=="Transpositioni")
+	{
+		//$key="karimun";
+		$dec = Deciphertrans($text, $kunci);
+		echo $dec;
+	}
+}
+
+elseif($med=='enk_file')
+{
+	if($pil=="Caesar")
+	{
+		$myfile = fopen($text, "r") or die("Unable to open file!");
+		//echo fread($myfile,filesize("plaintext.txt"));
+		$enk=Enciphercaesar(fread($myfile,filesize($text)),$kunci);
+		echo $enk;
+		fclose($myfile);
+	}
+	elseif($pil=="Mono")
+	{
+		//$key="cyaezndfvpghjmbxoqsukwirtl";
+		$myfile = fopen($text, "r") or die("Unable to open file!");
+		$plaintext;
+		$plaintext=Enciphermono(fread($myfile,filesize($text)), $kunci, $plaintext);
+		echo $plaintext;
+		fclose($myfile);
+	}
+	elseif($pil=="Playfair")
+	{
+		
+	}
+	elseif($pil=="Poly")
+	{
+		$myfile = fopen($text, "r") or die("Unable to open file!");
+		$enk=Encipherpoly(fread($myfile,filesize($text)),$kunci);
+		echo $enk;
+		fclose($myfile);
+	}
+	elseif($pil=="Transpositioni")
+	{
+		//$key="karimun";
+		$myfile = fopen($text, "r") or die("Unable to open file!");
+		$enk = Enciphertrans(fread($myfile,filesize($text)),$kunci);
+		echo $enk;
+		fclose($myfile);
+	}
+}
+else
+{
+	if($pil=="Caesar")
+	{
+		$myfile = fopen($text, "r") or die("Unable to open file!");
+		//echo fread($myfile,filesize("plaintext.txt"));
+		$dec=Deciphercaesar(fread($myfile,filesize($text)),$kunci);
+		echo $dec;
+		fclose($myfile);
+	}
+	elseif($pil=="Mono")
+	{
+		//$key="cyaezndfvpghjmbxoqsukwirtl";
+		$$myfile = fopen($text, "r") or die("Unable to open file!");
+		$plaintext;
+		$plaintext=Deciphermono(fread($myfile,filesize($text)), $kunci, $plaintext);
+		echo $plaintext;
+		fclose($myfile);
+	}
+	elseif($pil=="Playfair")
+	{
+		
+	}
+	elseif($pil=="Poly")
+	{
+		$myfile = fopen($text, "r") or die("Unable to open file!");
+		$dec=Decipherpoly(fread($myfile,filesize($text)),$kunci);
+		echo $dec;
+		fclose($myfile);
+	}
+	elseif($pil=="Transpositioni")
+	{
+		//$key="karimun";
+		$myfile = fopen($text, "r") or die("Unable to open file!");
+		$dec = Deciphertrans(fread($myfile,filesize($text)),$kunci);
+		echo $dec;
+		fclose($myfile);
+	}
+}
 ?>
